@@ -2,6 +2,8 @@
 
 This repository contains resources for the DeepLearning.AI short course on Gemini CLI.
 
+https://www.deeplearning.ai/short-courses/gemini-cli-code-and-create-with-an-open-source-agent/
+
 ## Course Overview
 
 The course teaches Gemini CLI best practices with practical examples:
