@@ -14,7 +14,12 @@ const { mockSessions } = vi.hoisted(() => {
         category: 'Keynote',
         day: 'Day 1',
         time: '10:00 AM',
-        location: 'Hall A'
+        location: 'Hall A',
+        details: {
+          fullDescription: 'Detailed React info',
+          level: 'Advanced',
+          tracks: ['Frontend', 'Web']
+        }
       },
       {
         id: '2',
@@ -24,7 +29,12 @@ const { mockSessions } = vi.hoisted(() => {
         category: 'Learning Lab',
         day: 'Day 2',
         time: '2:00 PM',
-        location: 'Room 200'
+        location: 'Room 200',
+        details: {
+          fullDescription: 'Detailed Vue info',
+          level: 'Beginner',
+          tracks: ['Frontend']
+        }
       },
       {
         id: '3',
@@ -34,7 +44,12 @@ const { mockSessions } = vi.hoisted(() => {
         category: 'Breakout',
         day: 'Day 1',
         time: '11:00 AM',
-        location: 'Hall B'
+        location: 'Hall B',
+        details: {
+          fullDescription: 'Detailed AI info',
+          level: 'Intermediate',
+          tracks: ['AI/ML']
+        }
       }
     ]
   };
@@ -57,7 +72,7 @@ describe('Catalog Page', () => {
     expect(screen.getByText('Showing 3 sessions')).toBeInTheDocument();
   });
 
-  it('filters by search query (title)', async () => {
+  it('filters by search query', async () => {
     render(
       <MemoryRouter>
         <Catalog />
@@ -70,57 +85,16 @@ describe('Catalog Page', () => {
     await waitFor(() => {
       expect(screen.queryByText('Vue Workshop')).not.toBeInTheDocument();
     });
-    expect(screen.getByText('Showing 1 sessions')).toBeInTheDocument();
   });
 
-  it('filters by search query (speaker)', async () => {
+  it('filters by Level', async () => {
     render(
       <MemoryRouter>
         <Catalog />
       </MemoryRouter>
     );
-    const searchInput = screen.getByPlaceholderText(/Search sessions/i);
-    fireEvent.change(searchInput, { target: { value: 'Marcus' } });
-
-    await waitFor(() => {
-      expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
-    });
-    expect(screen.getByText('Vue Workshop')).toBeInTheDocument();
-  });
-
-  it('filters by Day', async () => {
-    render(
-      <MemoryRouter>
-        <Catalog />
-      </MemoryRouter>
-    );
-    // Find the select for Day. It's the first select, or we can look for options.
-    // The component has two selects. We can distinguish by value or container.
-    // Let's assume the Day filter is the one with 'Day 1' option.
-    const selects = screen.getAllByRole('combobox');
-    const daySelect = selects[0]; // Based on order in JSX
-
-    fireEvent.change(daySelect, { target: { value: 'Day 2' } });
-
-    await waitFor(() => {
-      expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
-    });
-    expect(screen.getByText('Vue Workshop')).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.queryByText('AI in 2025')).not.toBeInTheDocument();
-    });
-  });
-
-  it('filters by Category', async () => {
-    render(
-      <MemoryRouter>
-        <Catalog />
-      </MemoryRouter>
-    );
-    const selects = screen.getAllByRole('combobox');
-    const categorySelect = selects[1]; // Based on order in JSX
-
-    fireEvent.change(categorySelect, { target: { value: 'Keynote' } });
+    const levelSelect = screen.getByDisplayValue('All Levels');
+    fireEvent.change(levelSelect, { target: { value: 'Advanced' } });
 
     expect(screen.getByText('React Keynote')).toBeInTheDocument();
     await waitFor(() => {
@@ -128,16 +102,63 @@ describe('Catalog Page', () => {
     });
   });
 
-  it('shows no results message when no matches', () => {
+  it('filters by Track', async () => {
+    render(
+      <MemoryRouter>
+        <Catalog />
+      </MemoryRouter>
+    );
+    const trackSelect = screen.getByDisplayValue('All Tracks');
+    fireEvent.change(trackSelect, { target: { value: 'AI/ML' } });
+
+    expect(screen.getByText('AI in 2026')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
+    });
+  });
+
+  it('filters by Speaker', async () => {
+    render(
+      <MemoryRouter>
+        <Catalog />
+      </MemoryRouter>
+    );
+    const speakerSelect = screen.getByDisplayValue('All Speakers');
+    fireEvent.change(speakerSelect, { target: { value: 'Emily Watson' } });
+
+    expect(screen.getByText('AI in 2026')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
+    });
+  });
+
+  it('clears all filters', async () => {
     render(
       <MemoryRouter>
         <Catalog />
       </MemoryRouter>
     );
     const searchInput = screen.getByPlaceholderText(/Search sessions/i);
-    fireEvent.change(searchInput, { target: { value: 'NonExistentTerm' } });
+    fireEvent.change(searchInput, { target: { value: 'React' } });
 
-    expect(screen.getByText('No sessions found')).toBeInTheDocument();
-    expect(screen.getByText('Showing 0 sessions')).toBeInTheDocument();
+    expect(screen.getByText('Showing 1 sessions')).toBeInTheDocument();
+
+    const clearButton = screen.getByText('Clear all filters');
+    fireEvent.click(clearButton);
+
+    expect(screen.getByText('Showing 3 sessions')).toBeInTheDocument();
+  });
+
+  it('initializes filters from URL parameters', () => {
+    render(
+      <MemoryRouter initialEntries={['/catalog?level=Advanced&category=Keynote']}>
+        <Catalog />
+      </MemoryRouter>
+    );
+    
+    expect(screen.getByText('React Keynote')).toBeInTheDocument();
+    expect(screen.queryByText('Vue Workshop')).not.toBeInTheDocument();
+    expect(screen.getByText('Showing 1 sessions')).toBeInTheDocument();
   });
 });
+

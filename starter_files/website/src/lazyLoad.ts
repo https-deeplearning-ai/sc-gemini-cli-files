@@ -7,3 +7,4 @@ export const loadTravelAndHotels = () => import('./pages/TravelAndHotels').then(
 export const loadSessionDetail = () => import('./pages/SessionDetail').then(module => ({ default: module.SessionDetail }));
 export const loadSponsors = () => import('./pages/Sponsors').then(module => ({ default: module.Sponsors }));
 export const loadWhyAttendDetail = () => import('./pages/WhyAttendDetail').then(module => ({ default: module.WhyAttendDetail }));
+export const loadSocials = () => import('./pages/Socials').then(module => ({ default: module.Socials }));
