@@ -9,7 +9,8 @@ import {
   loadCatalog, 
   loadSponsors, 
   loadRegistration, 
-  loadTravelAndHotels 
+  loadTravelAndHotels,
+  loadSocials
 } from '../lazyLoad';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -162,9 +163,18 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <BrainCircuit className="h-6 w-6 text-slate-400" />
               <span className="text-slate-500 font-semibold">TechStack Conference</span>
             </div>
-            <p className="text-slate-400 text-sm">
-              © 2026 Fictitious AI Conference. All rights reserved.
-            </p>
+            <div className="flex items-center gap-8">
+              <Link 
+                to="/socials" 
+                onMouseEnter={() => loadSocials()}
+                className="text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 text-sm font-medium transition-colors"
+              >
+                Social Kit
+              </Link>
+              <p className="text-slate-400 text-sm">
+                © 2026 Fictitious AI Conference. All rights reserved.
+              </p>
+            </div>
           </div>
         </div>
       </footer>

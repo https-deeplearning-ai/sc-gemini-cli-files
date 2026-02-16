@@ -5,7 +5,7 @@ as a senior engineer would.
 
 Here are the details from GitHub:
 
-!{gh issue view {{args}}}
+!{gh issue view {{args}} --repo jackwotherspoon/gemini-cli-course}
 
 **Goal:** Implement the requested feature or fix the bug safely and correctly.
 

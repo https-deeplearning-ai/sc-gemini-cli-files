@@ -11,7 +11,8 @@ import {
   loadTravelAndHotels,
   loadSessionDetail,
   loadSponsors,
-  loadWhyAttendDetail
+  loadWhyAttendDetail,
+  loadSocials
 } from './lazyLoad';
 
 const Home = lazy(loadHome);
@@ -23,6 +24,7 @@ const TravelAndHotels = lazy(loadTravelAndHotels);
 const SessionDetail = lazy(loadSessionDetail);
 const Sponsors = lazy(loadSponsors);
 const WhyAttendDetail = lazy(loadWhyAttendDetail);
+const Socials = lazy(loadSocials);
 
 function App() {
   return (
@@ -39,6 +41,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/travel" element={<TravelAndHotels />} />
             <Route path="/sponsors" element={<Sponsors />} />
+            <Route path="/socials" element={<Socials />} />
           </Routes>
         </Suspense>
       </Layout>
