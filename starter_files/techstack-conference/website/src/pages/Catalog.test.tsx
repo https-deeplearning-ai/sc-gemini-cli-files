@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useSearchParams } from 'react-router-dom';
 import { Catalog } from './Catalog';
 
 const { mockSessions } = vi.hoisted(() => {
@@ -14,7 +14,13 @@ const { mockSessions } = vi.hoisted(() => {
         category: 'Keynote',
         day: 'Day 1',
         time: '10:00 AM',
-        location: 'Hall A'
+        location: 'Hall A',
+        details: {
+          fullDescription: 'Full React Keynote',
+          takeaways: ['A', 'B'],
+          tracks: ['Frontend'],
+          level: 'Beginner'
+        }
       },
       {
         id: '2',
@@ -24,7 +30,13 @@ const { mockSessions } = vi.hoisted(() => {
         category: 'Learning Lab',
         day: 'Day 2',
         time: '2:00 PM',
-        location: 'Room 200'
+        location: 'Room 200',
+        details: {
+          fullDescription: 'Full Vue Workshop',
+          takeaways: ['C', 'D'],
+          tracks: ['Frontend'],
+          level: 'Advanced'
+        }
       },
       {
         id: '3',
@@ -34,7 +46,13 @@ const { mockSessions } = vi.hoisted(() => {
         category: 'Breakout',
         day: 'Day 1',
         time: '11:00 AM',
-        location: 'Hall B'
+        location: 'Hall B',
+        details: {
+          fullDescription: 'Full AI talk',
+          takeaways: ['E', 'F'],
+          tracks: ['AI'],
+          level: 'Intermediate'
+        }
       }
     ]
   };
@@ -94,21 +112,13 @@ describe('Catalog Page', () => {
         <Catalog />
       </MemoryRouter>
     );
-    // Find the select for Day. It's the first select, or we can look for options.
-    // The component has two selects. We can distinguish by value or container.
-    // Let's assume the Day filter is the one with 'Day 1' option.
-    const selects = screen.getAllByRole('combobox');
-    const daySelect = selects[0]; // Based on order in JSX
-
+    const daySelect = screen.getByDisplayValue('All Days');
     fireEvent.change(daySelect, { target: { value: 'Day 2' } });
 
     await waitFor(() => {
       expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
     });
     expect(screen.getByText('Vue Workshop')).toBeInTheDocument();
-    await waitFor(() => {
-      expect(screen.queryByText('AI in 2025')).not.toBeInTheDocument();
-    });
   });
 
   it('filters by Category', async () => {
@@ -117,14 +127,42 @@ describe('Catalog Page', () => {
         <Catalog />
       </MemoryRouter>
     );
-    const selects = screen.getAllByRole('combobox');
-    const categorySelect = selects[1]; // Based on order in JSX
-
+    const categorySelect = screen.getByDisplayValue('All Categories');
     fireEvent.change(categorySelect, { target: { value: 'Keynote' } });
 
     expect(screen.getByText('React Keynote')).toBeInTheDocument();
     await waitFor(() => {
       expect(screen.queryByText('Vue Workshop')).not.toBeInTheDocument();
+    });
+  });
+
+  it('filters by Level', async () => {
+    render(
+      <MemoryRouter>
+        <Catalog />
+      </MemoryRouter>
+    );
+    const levelSelect = screen.getByDisplayValue('All Levels');
+    fireEvent.change(levelSelect, { target: { value: 'Advanced' } });
+
+    expect(screen.getByText('Vue Workshop')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
+    });
+  });
+
+  it('filters by Track', async () => {
+    render(
+      <MemoryRouter>
+        <Catalog />
+      </MemoryRouter>
+    );
+    const trackSelect = screen.getByDisplayValue('All Tracks');
+    fireEvent.change(trackSelect, { target: { value: 'AI' } });
+
+    expect(screen.getByText('AI in 2026')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('React Keynote')).not.toBeInTheDocument();
     });
   });
 

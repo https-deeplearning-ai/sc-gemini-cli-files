@@ -17,7 +17,7 @@ export const WeekAtAGlance = () => {
           <p className="text-slate-600 dark:text-slate-400">A high-level overview of the summit schedule.</p>
         </motion.div>
 
-        <div className="space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {[
             {
               day: "Day 1",
@@ -60,9 +60,9 @@ export const WeekAtAGlance = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"
+              className="bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col"
             >
-              <div className="p-6 sm:p-8 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+              <div className="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white">{day.day}</h3>
@@ -73,14 +73,14 @@ export const WeekAtAGlance = () => {
                   </div>
                 </div>
               </div>
-              <div className="p-6 sm:p-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="p-6 space-y-6 flex-grow">
                 {day.events.map((event, j) => (
                   <div key={j} className="flex items-start gap-4">
-                    <div className="mt-1 p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    <div className="mt-1 p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 shrink-0">
                       <event.icon className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white">{event.title}</p>
+                      <p className="text-sm font-semibold text-slate-900 dark:text-white leading-tight">{event.title}</p>
                       <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center mt-1">
                         <Clock className="w-3 h-3 mr-1" /> {event.time}
                       </p>
