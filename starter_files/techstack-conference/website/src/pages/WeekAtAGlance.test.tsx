@@ -5,11 +5,16 @@ import { BrowserRouter } from 'react-router-dom';
 
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, initial, whileInView, viewport, transition, ...props }: any) => (
-      <div {...props}>{children}</div>
-    ),
-  },
+  motion: new Proxy(
+    {},
+    {
+      get: (_, tag: string) =>
+        ({ children, initial, whileInView, viewport, transition, ...props }: any) => {
+          const Component = tag;
+          return <Component {...props}>{children}</Component>;
+        },
+    }
+  ),
 }));
 
 describe('WeekAtAGlance', () => {
