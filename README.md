@@ -2,6 +2,11 @@
 
 This repository contains resources for the DeepLearning.AI short course on Gemini CLI.
 
+## Other DeepLearning.AI Resources
+> :mortar_board: **Keep learning** → [Explore all DeepLearning.AI courses](https://www.deeplearning.ai/courses/) — taught by the people building the future of AI. Find your next one.
+>
+> :computer: **Explore more course artifacts** → [Browse the DeepLearning.AI course artifacts repo](https://github.com/https-deeplearning-ai/deeplearning-ai) to find notebooks, projects, and notes from other courses across the DeepLearning.AI library.
+
 ## Course Overview
 
 The course teaches Gemini CLI best practices with practical examples:
