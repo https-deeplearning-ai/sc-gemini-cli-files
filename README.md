@@ -2,6 +2,11 @@
 
 This repository contains resources for the DeepLearning.AI short course on Gemini CLI.
 
+> [!IMPORTANT]
+> **Gemini CLI is being retired for non-Enterprise users.** As of **June 18, 2026**, it has stopped serving requests for free, Pro, and Ultra accounts (Enterprise / Gemini Code Assist Standard & Enterprise licenses are unaffected). The lessons still teach concepts that carry over to any coding agent — to keep building hands-on, migrate to **[Antigravity CLI](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/)**, Google's official successor.
+>
+> **Other DeepLearning.AI courses you may like:** [Claude Code](https://www.deeplearning.ai/courses/claude-code-a-highly-agentic-coding-assistant) · [Build Apps with Windsurf's AI Coding Agents](https://www.deeplearning.ai/courses/build-apps-with-windsurfs-ai-coding-agents) · [Vibe Coding 101 with Replit](https://www.deeplearning.ai/courses/vibe-coding-101-with-replit) · [Jupyter AI: AI Coding in Notebooks](https://www.deeplearning.ai/courses/jupyter-ai-coding-in-notebooks)
+
 ## Other DeepLearning.AI Resources
 > :mortar_board: **Keep learning** → [Explore all DeepLearning.AI courses](https://www.deeplearning.ai/courses/) — taught by the people building the future of AI. Find your next one.
 >
